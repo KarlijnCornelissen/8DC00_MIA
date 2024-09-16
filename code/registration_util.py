@@ -44,9 +44,18 @@ def t2h(T, t):
     # Th - homogeneous transformation matrix
 
     #------------------------------------------------------------------#
-    # TODO: Implement conversion of a transformation matrix and a translation vector to homogeneous transformation matrix.
+ 	# Create a 3x3 identity matrix
+    Th = np.eye(3)
+
+    # Insert the 2x2 transformation matrix into the top-left corner
+    Th[:2, :2] = T
+
+    # Insert the translation vector into the top-right corner
+    Th[:2, 2] = t
+
+    return Th
     #------------------------------------------------------------------#
-    pass
+    
 
 def plot_object(ax, X):
     # Plot 2D object.

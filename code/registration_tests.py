@@ -47,7 +47,21 @@ def combining_transforms():
     X = util.test_object(1)
 
     #------------------------------------------------------------------#
-    # TODO: Experiment with combining transformation matrices.
+    X_t = reg.reflect(-1,1).dot(reg.rotate(np.pi/2)).dot(X)
+    X_t_reverse = reg.rotate(np.pi/2).dot(reg.reflect(-1,1).dot(X))
+    X_t_same =reg.rotate(np.pi/2).dot(reg.reflect(1,-1).dot(X))
+    X_rot_shear_reflect = reg.rotate(3*np.pi/4).dot(reg.shear(0.1, 0.2).dot(reg.reflect(-1, -1).dot(X)))
+
+    fig = plt.figure(figsize=(12,5))
+    ax1 = fig.add_subplot(141, xlim=(-4,4), ylim=(-4,4))
+    ax2 = fig.add_subplot(142, xlim=(-4,4), ylim=(-4,4))
+    ax3 = fig.add_subplot(143, xlim=(-4,4), ylim=(-4,4))
+    ax4 = fig.add_subplot(144, xlim=(-4,4), ylim=(-4,4))
+
+    util.plot_object(ax1, X_rot_shear_reflect)
+    util.plot_object(ax2, X_t)
+    util.plot_object(ax3, X_t_reverse)
+    util.plot_object(ax4, X_t_same)
     #------------------------------------------------------------------#
 
 
