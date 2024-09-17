@@ -74,11 +74,11 @@ def t2h_test():
     t = np.array([10, 20])
 
     # rotation matrix
-    T_rot = reg.rotate(np.pi/4)
+    X_rot = reg.rotate(np.pi/4).dot(X)
 
-    Th = util.t2h(T_rot, t)
-
-    X_rot_tran = Th.dot(Xh)
+    X_rot_tran = np.empty(shape=X.shape)
+    X_rot_tran[0,:] = X_rot[0,:] + t[0];
+    X_rot_tran[1,:] = X_rot[1,:] + t[1];
 
     fig = plt.figure(figsize=(5,5))
     ax1 = fig.add_subplot(111)
@@ -94,6 +94,11 @@ def arbitrary_rotation():
 
     #------------------------------------------------------------------#
     # TODO: Perform rotation of the test shape around the first vertex
+    Xt = X[:,0] # translation vector
+    T_1 = util.t2h(reg.identity(), Xt) # translation to the origin
+    T_2 = util.t2h(reg.rotate(np.pi/4), np.zeros(2)) # rotation
+    T_3 = util.t2h(reg.identity(), -Xt) # translation back
+    T= T_1.dot(T_2).dot(T_3) # combine the transformations
     #------------------------------------------------------------------#
 
     X_rot = T.dot(Xh)

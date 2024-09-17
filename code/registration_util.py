@@ -44,16 +44,17 @@ def t2h(T, t):
     # Th - homogeneous transformation matrix
 
     #------------------------------------------------------------------#
- 	# Create a 3x3 identity matrix
-    Th = np.eye(3)
+	# Create a 3x3 identity matrix
+	Th = np.eye(3)
 
-    # Insert the 2x2 transformation matrix into the top-left corner
-    Th[:2, :2] = T
+	# Insert the 2x2 transformation matrix into the top-left corner
+	Th[:2, :2] = T
 
-    # Insert the translation vector into the top-right corner
-    Th[:2, 2] = t
-
-    return Th
+	# Insert the translation vector into the top-right corner
+	Th[:2, 2] = t
+	Th = np.array(Th)
+	
+	return Th
     #------------------------------------------------------------------#
     
 
