@@ -5,6 +5,7 @@ Registration module main code.
 import numpy as np
 from scipy import ndimage
 import registration_util as util
+from scipy.stats import entropy
 
 
 # SECTION 1. Geometrical transformations
@@ -197,6 +198,7 @@ def correlation(I, J):
     #------------------------------------------------------------------#
     # TODO: Implement the computation of the normalized cross-correlation.
     # This can be done with a single line of code, but you can use for-loops instead.
+    CC = (np.transpose(u).dot(v))/np.sqrt(np.transpose(u).dot(u)*np.transpose(v).dot(v))
     #------------------------------------------------------------------#
 
     return CC
@@ -247,6 +249,7 @@ def joint_histogram(I, J, num_bins=16, minmax_range=None):
     # intensities in the two images. You need to implement one final
     # step to make p take the form of a probability mass function
     # (p.m.f.).
+    p = p / n
     #------------------------------------------------------------------#
 
     return p
@@ -278,6 +281,7 @@ def mutual_information(p):
     # can use a for-loop instead.
     # HINT: p_I is a column-vector and p_J is a row-vector so their
     # product is a matrix. You can also use the sum() function here.
+    MI = np.sum(p*np.log(p/(p_I.dot(p_J))))
     #------------------------------------------------------------------#
 
     return MI
@@ -307,6 +311,7 @@ def mutual_information_e(p):
     #------------------------------------------------------------------#
     # TODO: Implement the computation of the mutual information via
     # computation of entropy.
+    MI = np.sum(entropy(p_I)[0] + entropy(p_J)[0] - entropy(p)[0])
     #------------------------------------------------------------------#
 
     return MI

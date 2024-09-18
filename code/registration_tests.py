@@ -220,6 +220,10 @@ def correlation_test():
 
     #------------------------------------------------------------------#
     # TODO: Implement a few more tests of the correlation definition
+    corIJ = reg.correlation(I, J)
+    print("I,J = ", corIJ)
+    corII = reg.correlation(I, I)
+    print("I,J = ", corII)
     #------------------------------------------------------------------#
 
     print('Test successful!')
@@ -235,6 +239,18 @@ def mutual_information_test():
 
     #------------------------------------------------------------------#
     # TODO: Implement a few tests of the mutual_information definition
+    print("MI1 = ", MI1)
+    J = np.random.randint(255, size=(512, 512))
+    K = np.random.randint(255, size=(512, 512))
+
+    p2 = reg.joint_histogram(J, K)
+    MI2 = reg.mutual_information(p2)
+    print("MI2 = ", MI2)
+
+    p3 = reg.joint_histogram(K, J)
+    MI3 = reg.mutual_information(p3)
+    print("MI3 = ", MI3)
+    
     #------------------------------------------------------------------#
 
     print('Test successful!')
