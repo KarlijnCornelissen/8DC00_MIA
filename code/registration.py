@@ -115,7 +115,7 @@ def image_transform(I, Th,  output_shape=None):
 
     #------------------------------------------------------------------#
     # TODO: Perform inverse coordinates mapping.
-    Xt = np.invert(Th).dot(Xh)
+    Xt = np.linalg.inv(Th).dot(Xh)
     #------------------------------------------------------------------#
 
     It = ndimage.map_coordinates(I, [Xt[1,:], Xt[0,:]], order=1, mode='constant').reshape(output_shape)
@@ -134,6 +134,7 @@ def ls_solve(A, b):
 
     #------------------------------------------------------------------#
     # TODO: Implement the least-squares solution for w.
+    w = np.linalg.inv(np.transpose(A).dot(A)).dot(np.transpose(A)).dot(b)
     #------------------------------------------------------------------#
 
     # compute the error
@@ -155,6 +156,18 @@ def ls_affine(X, Xm):
     #------------------------------------------------------------------#
     # TODO: Implement least-squares fitting of an affine transformation.
     # Use the ls_solve() function that you have previously implemented.
+    # print("A=",A)   
+    b = np.transpose(X)
+    # print("b=",b)
+    b1 = X[0]
+    b2 = X[1]
+    # print("b1=",b1)
+    # print("b2=",b2)
+    w1, E1 = ls_solve(A, b1)
+    # print("w1=",w1)
+    w2, E2 = ls_solve(A, b2)
+    T = np.array([w1, w2])
+    print("T=",T)
     #------------------------------------------------------------------#
 
     return T
