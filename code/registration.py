@@ -335,8 +335,12 @@ def ngradient(fun, x, h=1e-3):
     # TODO: Implement the  computation of the partial derivatives of
     # the function at x with numerical differentiation.
     # g[k] should store the partial derivative w.r.t. the k-th parameter
-    #------------------------------------------------------------------#
+    # of the function.
 
+    for k in range(len(x)):
+       g[k] = (fun(x[k]+h/2) - fun(x[k]-h/2))/h
+    #------------------------------------------------------------------#
+    
     return g
 
 
@@ -406,6 +410,16 @@ def affine_corr(I, Im, x, return_transform=True):
 
     #------------------------------------------------------------------#
     # TODO: Implement the missing functionality
+    T1= rotate(x[0])                    # rotation
+    T2= scale(x[1], x[2]).dot(T1)       # scaling
+    T3= shear(x[3], x[4]).dot(T2)       # shearing
+    Th = util.t2h(T3, x[5:]*SCALING)    # translation
+
+    # transform the moving image
+    Im_t, Xt = image_transform(Im, Th)
+    
+    # compute the similarity between the fixed and transformed moving image
+    C = correlation(I, Im_t)
     #------------------------------------------------------------------#
 
     if return_transform:
@@ -436,6 +450,16 @@ def affine_mi(I, Im, x, return_transform=True):
     
     #------------------------------------------------------------------#
     # TODO: Implement the missing functionality
+    T1= rotate(x[0])                    # rotation
+    T2= scale(x[1], x[2]).dot(T1)       # scaling
+    T3= shear(x[3], x[4]).dot(T2)       # shearing
+    Th = util.t2h(T3, x[5:]*SCALING)    # translation
+
+    # transform the moving image
+    Im_t, Xt = image_transform(Im, Th)
+
+    # compute the similarity between the fixed and transformed moving image
+    C = mutual_information(joint_histogram(I, Im_t, NUM_BINS))
     #------------------------------------------------------------------#
 
     if return_transform:

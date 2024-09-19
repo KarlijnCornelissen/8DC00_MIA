@@ -284,6 +284,8 @@ def ngradient_test():
 
     #------------------------------------------------------------------#
     # TODO: Implement a few more test cases of ngradient
+    f = lambda x: np.sum(x**2)
+    g2 = reg.ngradient(f, np.ones((1,)))
     #------------------------------------------------------------------#
 
     print('Test successful!')
