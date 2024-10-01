@@ -338,7 +338,14 @@ def ngradient(fun, x, h=1e-3):
     # of the function.
 
     for k in range(len(x)):
-       g[k] = (fun(x[k]+h/2) - fun(x[k]-h/2))/h
+        x_plus = x.copy()
+        x_minus = x.copy()
+        x_plus[k] = x_plus[k] + h/2
+        x_minus[k] = x_minus[k] - h/2
+        g[k] = (fun(x_plus) - fun(x_minus))/h
+
+    # for k in range(len(x)):
+    #    g[k] = (fun(x[k]+h/2) - fun(x[k]-h/2))/h
     #------------------------------------------------------------------#
     
     return g
