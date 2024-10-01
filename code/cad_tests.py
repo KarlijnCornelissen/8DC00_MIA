@@ -51,6 +51,8 @@ def linear_regression():
     trainX = train_data[:,0].reshape(-1,1)
     trainXones = util.addones(trainX)
     trainY = train_data[:,1].reshape(-1,1)
+
+    Theta = reg.ls_solve(trainXones, trainY)[0]
     
     #---------------------------------------------------------------------#
 
@@ -77,6 +79,12 @@ def linear_regression():
 
     #---------------------------------------------------------------------#
     # TODO: Compute the error for the trained model.
+
+    validationX = validation_data[:,0].reshape(-1,1)
+    validationY = validation_data[:,1].reshape(-1,1)
+
+    E_test = reg.ls_solve(util.addones(testX), testY)[1]
+    E_validation = reg.ls_solve(util.addones(validationX), validationY)[1]
     #---------------------------------------------------------------------#
 
     return E_validation, E_test
@@ -85,6 +93,71 @@ def linear_regression():
 def quadratic_regression():
     #---------------------------------------------------------------------#
     # TODO: Implement training of a quadratic regression model.
+    # load the training, validation and testing datasets
+    fn1 = '../data/linreg_ex_test.txt'
+    fn2 = '../data/linreg_ex_train.txt'
+    fn3 = '../data/linreg_ex_validation.txt'
+    # shape (30,2) numpy array; x = column 0, y = column 1
+    test_data = np.loadtxt(fn1)
+    # shape (20,2) numpy array; x = column 0, y = column 1
+    train_data = np.loadtxt(fn2)
+    # shape (10,2) numpy array; x = column 0, y = column 1
+    validation_data = np.loadtxt(fn3)
+
+    # plot the training dataset
+    fig = plt.figure(figsize=(10,10))
+    ax = fig.add_subplot(111)
+    ax.plot(train_data[:,0], train_data[:,1], '*')
+    ax.grid()
+    ax.set_xlabel('x')
+    ax.set_ylabel('y')
+    ax.set_title('Training data')
+
+    #---------------------------------------------------------------------#
+    # TODO: Implement training of a linear regression model.
+    # Here you should reuse ls_solve() from the registration mini-project.
+    # The provided addones() function adds a column of all ones to a data
+    # matrix X in a similar way to the c2h() function used in registration.
+    trainX = train_data[:,0].reshape(-1,1)
+    trainX_quadratic = np.column_stack((trainX, trainX**2))
+    trainXones = util.addones(trainX_quadratic)
+    trainY = train_data[:,1].reshape(-1,1)
+
+    Theta = reg.ls_solve(trainXones, trainY)[0]
+    
+    #---------------------------------------------------------------------#
+
+    fig1 = plt.figure(figsize=(10,10))
+    ax1 = fig1.add_subplot(111)
+    util.plot_regression(trainX_quadratic, trainY, Theta, ax1)
+    ax1.grid()
+    ax1.set_xlabel('x')
+    ax1.set_ylabel('y')
+    ax1.legend(('Original data', 'Regression curve', 'Predicted Data', 'Error'))
+    ax1.set_title('Training set')
+
+    testX = test_data[:,0].reshape(-1,1)
+    testX_quadratic = np.column_stack((testX, testX**2))
+    testY = test_data[:,1].reshape(-1,1)
+
+    fig2 = plt.figure(figsize=(10,10))
+    ax2 = fig2.add_subplot(111)
+    util.plot_regression(testX_quadratic, testY, Theta, ax2)
+    ax2.grid()
+    ax2.set_xlabel('x')
+    ax2.set_ylabel('y')
+    ax2.legend(('Original data', 'Regression curve', 'Predicted Data', 'Error'))
+    ax2.set_title('Test set')
+
+    validationX = validation_data[:,0].reshape(-1,1)
+    validationX_quadratic = np.column_stack((validationX, validationX**2))
+    validationY = validation_data[:,1].reshape(-1,1)
+
+    #---------------------------------------------------------------------#
+    # TODO: Compute the error for the trained model.
+    E_test = reg.ls_solve(util.addones(testX_quadratic), testY)[1]
+    E_validation = reg.ls_solve(util.addones(validationX_quadratic), validationY)[1]
+    #---------------------------------------------------------------------#
     #---------------------------------------------------------------------#
 
     return E_validation, E_test
@@ -420,12 +493,13 @@ def eigen_vecval_test(sigma):
     #  what two properties can you name about the eigenvectors? How can you verify these properties?
     #  which eigenvalue is the largest and which is the smallest?
     #------------------------------------------------------------------#
+    pass
 
 def rotate_using_eigenvectors_test(X, Y, v):
     #------------------------------------------------------------------#
     # TODO: Rotate X using the eigenvectors
     #------------------------------------------------------------------#
-
+    pass
 
 def test_mypca():
     #Generates some toy data in 2D, computes PCA, and plots both datasets
