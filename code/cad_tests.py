@@ -298,7 +298,7 @@ def model_training():
         #---------------------------------------------------------------------#
         # TODO: Define the derivative of L with respect to w (as a function of
         # w, x, and y). Implement it as follows:
-        # dL_dw = ...
+        dL_dw = 2*(x*w - y)*x
         #---------------------------------------------------------------------#
 
         # Take a step and update the weight
@@ -360,12 +360,12 @@ class Training:
         #---------------------------------------------------------------------#
         # TODO: Create two variables: w1_shape and w2_shape, and define them as
         # follows (as a function of variables defined above)
-        # self.w1_shape = (.. , ..)
-        # self.w2_shape = (.. , ..)
+        self.w1_shape = (in_features , out_features)
+        #self.w2_shape = (.. , ..)
         #---------------------------------------------------------------------#
 
-        return {'w1_shape': self.w1_shape,
-                'w2_shape': self.w2_shape}
+        return {'w1_shape': self.w1_shape}
+                #'w2_shape': self.w2_shape}
 
     def launch_training(self):
         
