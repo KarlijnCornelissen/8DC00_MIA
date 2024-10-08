@@ -360,12 +360,12 @@ class Training:
         #---------------------------------------------------------------------#
         # TODO: Create two variables: w1_shape and w2_shape, and define them as
         # follows (as a function of variables defined above)
-        self.w1_shape = (in_features , out_features)
-        #self.w2_shape = (.. , ..)
+        self.w1_shape = (in_features , n_hidden_features)
+        self.w2_shape = (n_hidden_features , out_features)
         #---------------------------------------------------------------------#
 
-        return {'w1_shape': self.w1_shape}
-                #'w2_shape': self.w2_shape}
+        return {'w1_shape': self.w1_shape,
+                'w2_shape': self.w2_shape}
 
     def launch_training(self):
         
@@ -466,8 +466,8 @@ class Training:
         #---------------------------------------------------------------------#
         # TODO: Update the variables: w1 and w2, and define them as
         # follows (as a function of learning_rate, dL_dw1, and dL_dw2)
-        # w1 = w1 - ...
-        # w2 = w2 - ...
+        w1 = w1 - self.learning_rate * dL_dw1
+        w2 = w2 - self.learning_rate * dL_dw2
         #---------------------------------------------------------------------#
         return {'w1': w1,
                 'w2': w2}
