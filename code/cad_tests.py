@@ -485,21 +485,44 @@ def covariance_matrix_test():
     #------------------------------------------------------------------#
     # TODO: Calculate the mean and covariance matrix of the data,
     #  and compare them to the parameters you used as input.
+    mean = np.mean(X, axis=0, )
+    cov = np.cov(X, rowvar=False)
+    print("Calculated mean of X: ", mean)
+    print("Input mean of X: ", mu1)
+    print("Calculated covariance matrix of X: ", cov)
+    print("Input covariance matrix of X: ", sigma1)
     #------------------------------------------------------------------#
+    return X, Y, cov
 
 def eigen_vecval_test(sigma):
     #------------------------------------------------------------------#
     # TODO: Compute the eigenvectors and eigenvalues of the covariance matrix,
     #  what two properties can you name about the eigenvectors? How can you verify these properties?
     #  which eigenvalue is the largest and which is the smallest?
+    orthogonality_results = [] #Verify orthogonality of eigenvectors (dot product should be close to zero)
+    normalization_results = [] # Verify normalization of eigenvectors (norm should be 1)
+
+    w, v = np.linalg.eig(sigma)
+    ix = np.argsort(w)[::-1] #Find ordering of eigenvalues
+    w  = w[ix] #Reorder eigenvalues
+    v = v[:, ix] #Reorder eigenvectors
+
+    #Verify orthogonality and normalization of eigenvectors
+    for i in range(v.shape[1]):
+        orthogonality_results.append(np.dot(v[:,i], v[:,i-1]))
+        normalization_results.append(np.linalg.norm(v[:,i]))
     #------------------------------------------------------------------#
-    pass
+    return v, w
+    
 
 def rotate_using_eigenvectors_test(X, Y, v):
     #------------------------------------------------------------------#
     # TODO: Rotate X using the eigenvectors
+    X_rot = X.dot(v)
+    print("Original X: ", X)
+    print("Rotated X: ", X_rot)
     #------------------------------------------------------------------#
-    pass
+    return X_rot
 
 def test_mypca():
     #Generates some toy data in 2D, computes PCA, and plots both datasets
